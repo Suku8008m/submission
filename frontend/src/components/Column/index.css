@@ -3,7 +3,6 @@
   color: silver;
   width: 350px;
   text-align: center;
-  min-height: 100vh;
   border-radius: 15px;
   background-color: #2626263f;
   border: 1px solid #26262659;
@@ -14,6 +13,8 @@
   border-top: 1px solid rgba(255, 0, 0, 0);
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  padding-bottom: 10vh;
+  height: calc(100% - 55px);
 }
 
 @media (min-width: 1150px) {
@@ -27,3 +28,4 @@
     width: 100%;
   }
 }
+
