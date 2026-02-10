@@ -1,14 +1,20 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import KanbanBoard from "../../components/KanbanBoard/KanbanBoard";
 
-// mock socket.io-client
+// Mock Column to avoid React DnD in unit tests
+vi.mock("../../components/Column/Column", () => ({
+  default: ({ title }) => <div>{title}</div>,
+}));
+
+// Mock application context
 vi.mock("../../Context.jsx", () => ({
   useApp: () => ({
     // state
-    tasks: [],
+    tasks: [
+      { id: "1", title: "Todo Task", status: "todo" },
+      { id: "2", title: "Done Task", status: "done" },
+    ],
     newTask: "",
     description: "",
     category: "bug",
@@ -17,7 +23,7 @@ vi.mock("../../Context.jsx", () => ({
     file: null,
     preview: null,
 
-    // setters (no-ops)
+    // setters
     setNewTask: vi.fn(),
     setDescription: vi.fn(),
     setCategory: vi.fn(),
@@ -43,19 +49,18 @@ vi.mock("../../Context.jsx", () => ({
       done: "done",
     },
 
-    // actions
     submitForm: vi.fn(),
   }),
 }));
 
-test("Kanban board renders with websocket layer mocked", () => {
-  render(
-    <DndProvider backend={HTML5Backend}>
-      <KanbanBoard />
-    </DndProvider>,
-  );
+describe("KanbanBoard", () => {
+  test("renders columns based on board configuration", () => {
+    render(<KanbanBoard />);
 
-  expect(screen.getByText(/create a task/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/todo/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/done/i).length).toBeGreaterThan(0);
+  });
 });
+
 
 
