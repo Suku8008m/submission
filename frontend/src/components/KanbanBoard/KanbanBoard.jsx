@@ -132,14 +132,15 @@ function KanbanBoard() {
             </li>
             <li className="drag-drop-file">
               <input type="file" onChange={handleChange} />
-              {(!file || preview) && (
-                <p>
-                  Drag and Drop any attachment here or
-                  <br />
-                  simply click here.
-                </p>
+              {(!file || !preview) && <p>Simply click here to add a file.</p>}
+              {preview && (
+                <img
+                  src={preview}
+                  alt="preview"
+                  style={{ width: "200px", marginTop: "10px" }}
+                  className="preview-img"
+                />
               )}
-
               {file && (
                 <div className="file-info">
                   <p>
@@ -152,13 +153,6 @@ function KanbanBoard() {
                     <strong>Size:</strong> {(file.size / 1024).toFixed(2)} KB
                   </p>
                 </div>
-              )}
-              {preview && (
-                <img
-                  src={preview}
-                  alt="preview"
-                  style={{ width: "200px", marginTop: "10px" }}
-                />
               )}
             </li>
             <button type="submit">Add Task</button>
@@ -198,3 +192,4 @@ function KanbanBoard() {
 }
 
 export default KanbanBoard;
+
